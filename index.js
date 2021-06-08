@@ -1,17 +1,69 @@
 require("dotenv").config();
 
-// depedency shit
+/*
+	Depenency shit
+*/
 const fs = require("fs");
 const Discord = require('discord.js');
 const http = require("http");
+const ytdl = require("ytdl-core");
 
+/*
+	Collection shit
+	Incase you're wondering why I am using collections and not an array, Discord.JS collections already have all the functions I need and more, 
+	beats having to write my own shit for something that's already there.
+*/
 const client = new Discord.Client();
+client.commands = new Discord.Collection();
+client.ytdl = ytdl;
+
+const VoiceDispatchers = new Discord.Collection();
+const GuildSettings = new Discord.Collection();
 
 client.on('ready', () => {
   	console.log(`Logged in as ${client.user.tag}!`);
 });
 
-// Command bullshit
+/*
+	Voice stuff, that simple.
+*/
+
+// Add a dispatcher to the collection.
+function AddDispatcher(guildid, dispatcher) {
+	if(!dispatcher)
+		return;
+	VoiceDispatchers.set(guildid, dispatcher);
+}
+
+// Get a dispatcher to do shit with, ie fuckin' pausing, etc
+function GetDispatcher(guildid) {
+	return VoiceDispatchers.get(guildid);
+}
+
+// Remove a dispatcher.
+function RemoveDispatcher(guildid) {
+	VoiceDispatchers.delete(guildid);
+}
+
+/*
+	Permission shit, really not used that much but I plan on using it a lot more.
+*/
+
+function IsAdmin(memberObj) {
+	if(memberObj.hasPermission('ADMINISTRATOR'))
+		return true;
+	
+	return false;
+}
+
+/*
+
+*/
+
+/*
+	Command stuff.
+*/
+
 const loadCommands = fs.readdirSync('./commands');
 
 for(const folder of loadCommands){
