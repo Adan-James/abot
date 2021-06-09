@@ -3,9 +3,11 @@ module.exports = {
     description: 'Play a YouTube link.',
     usage: '<URL>',
     category: 'Voice',
+    reqargs: 1,
     permission: 0,
     execute(message, args){
         var vchannel = message.member.voice.channel;
+        const client = message.client;
         const streamOptions = { seek: 0, volume: 1 };
 
         if(!vchannel){
@@ -15,7 +17,7 @@ module.exports = {
 
         if(client.GetDispatcher(message.guild.id)) {
             if(client.IsAdmin(message.member)) {
-                
+
             }else {
                 message.reply(`Queued ${args[0]}`);
             }
@@ -26,7 +28,7 @@ module.exports = {
         vchannel.join().then(conn => {
             console.log("Joined a voice channel.");
 
-            const stream = ytdl(args[0], {filter : 'audioonly'});
+            const stream = client.ytdl(args[0], {filter : 'audioonly'});
             const dispatcher = conn.play(stream, streamOptions);
             dispatcher.on('finish', end => {
                 message.channel.send("Your video has ended. Play another, otherwise the bot will disconnect in 1 minute.").then( msg => {

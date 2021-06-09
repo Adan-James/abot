@@ -29,19 +29,19 @@ client.on('ready', () => {
 */
 
 // Add a dispatcher to the collection.
-function AddDispatcher(guildid, dispatcher) {
+client.AddDispatcher = function(guildid, dispatcher){
 	if(!dispatcher)
 		return;
 	VoiceDispatchers.set(guildid, dispatcher);
 }
 
 // Get a dispatcher to do shit with, ie fuckin' pausing, etc
-function GetDispatcher(guildid) {
+client.GetDispatcher = function(guildid) {
 	return VoiceDispatchers.get(guildid);
 }
 
 // Remove a dispatcher.
-function RemoveDispatcher(guildid) {
+client.RemoveDispatcher = function(guildid) {
 	VoiceDispatchers.delete(guildid);
 }
 
@@ -49,7 +49,7 @@ function RemoveDispatcher(guildid) {
 	Permission shit, really not used that much but I plan on using it a lot more.
 */
 
-function IsAdmin(memberObj) {
+client.IsAdmin = function(memberObj) {
 	if(memberObj.hasPermission('ADMINISTRATOR'))
 		return true;
 	

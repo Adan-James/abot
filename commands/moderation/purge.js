@@ -4,6 +4,7 @@ module.exports = {
     usage: '<amount> [channel]',
     category: 'Moderation',
     permission: 'MANAGE_MESSAGES',
+    reqargs: 1,
     execute(message, args){
         const client = message.client;
         var amount = parseInt(args[0]);
